@@ -13,14 +13,14 @@ Inspired by [openai/codex-plugin-cc](https://github.com/openai/codex-plugin-cc).
 
 ## Requirements
 
-- [GitHub CLI](https://cli.github.com) (`gh`)
-- GitHub Copilot CLI extension: `gh extension install github/gh-copilot`
+- [GitHub Copilot CLI](https://docs.github.com/copilot/how-tos/copilot-cli) (`copilot`)
 - GitHub Copilot Pro (or higher) plan
 
 ## Install
 
 ```
-/plugin install copilot@your-username
+/plugin marketplace add miyato1122/copilot-plugin-cc
+/plugin install copilot@miyato1122
 ```
 
 Or locally with:
@@ -59,4 +59,4 @@ Review with a specific focus:
 
 ## Notes
 
-Unlike `codex-plugin-cc`, this plugin does not support background execution since `gh copilot` is an interactive CLI. For long-running reviews, open a second Claude Code session.
+This plugin uses the standalone `copilot` CLI (`copilot -p`) for non-interactive execution, which requires GitHub Copilot CLI v1.0 or later.

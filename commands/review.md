@@ -11,7 +11,6 @@ Run a code review on your current changes using GitHub Copilot CLI.
 ## Options
 
 - `--base <ref>` — Compare against a branch or commit (e.g., `--base main`). Defaults to uncommitted changes.
-- `--wait` — Wait for completion and show results inline (default behavior).
 
 ## Examples
 
@@ -24,42 +23,40 @@ Run a code review on your current changes using GitHub Copilot CLI.
 
 ## What it does
 
-1. Checks that `gh` CLI is installed and authenticated.
+1. Checks that `copilot` CLI is installed.
 2. Determines the review target:
    - With `--base <ref>`: reviews the diff between current branch and `<ref>` using `git diff <ref>`
-   - Without `--base`: reviews uncommitted changes using `git diff HEAD`
-3. Pipes the diff into `gh copilot` with the `/review` command and any focus text provided.
+   - Without `--base`: reviews uncommitted changes using `git diff HEAD` (includes both staged and unstaged)
+3. Passes the diff to `copilot -p` for review.
 4. Displays the Copilot review feedback inline.
 
 ## Instructions
 
 When this command is invoked:
 
-1. **Check prerequisites**: Run `gh --version` to confirm `gh` is installed. If not, tell the user to install GitHub CLI from https://cli.github.com and run `gh auth login`.
+1. **Check prerequisites**: Run `copilot --version` to confirm `copilot` is installed. If not, tell the user to install GitHub Copilot CLI from https://docs.github.com/copilot/how-tos/copilot-cli.
 
-2. **Check Copilot CLI**: Run `gh extension list` and check for `github/gh-copilot`. If missing, tell the user to run:
-   ```
-   gh extension install github/gh-copilot
-   ```
-
-3. **Determine diff target**:
+2. **Determine diff target**:
    - If `--base <ref>` is provided, run: `git diff <ref>`
-   - Otherwise, run: `git diff HEAD`
+   - Otherwise, run: `git diff HEAD` (covers both staged and unstaged changes)
    - If the diff is empty, inform the user there are no changes to review.
 
-4. **Run the review**: Pass the diff to Copilot CLI for review. Use the Bash tool to run:
+3. **Run the review**: Capture the diff and pass it to `copilot` for review. Use the Bash tool to run:
    ```
-   git diff [<ref>|HEAD] | gh copilot suggest -t shell "/review <focus>"
+   DIFF=$(git diff HEAD) && copilot -p "$(printf 'Review the following code diff and provide feedback. Focus: <focus>\n\n%s' "$DIFF")" -s
    ```
-   Or if no focus text, simply:
+   Or if no focus text:
    ```
-   git diff [<ref>|HEAD] | gh copilot suggest -t shell "/review"
+   DIFF=$(git diff HEAD) && copilot -p "$(printf 'Review the following code diff and provide feedback:\n\n%s' "$DIFF")" -s
    ```
-   Note: Since `gh copilot` is interactive, run it with the diff piped in and capture stdout.
+   For `--base <ref>`:
+   ```
+   DIFF=$(git diff <ref>) && copilot -p "$(printf 'Review the following code diff and provide feedback:\n\n%s' "$DIFF")" -s
+   ```
 
-5. **Display results**: Show the Copilot review output clearly to the user. Summarize key findings and highlight any actionable suggestions.
+4. **Display results**: Show the Copilot review output clearly to the user. Summarize key findings and highlight any actionable suggestions.
 
-6. **Handle errors**: If `gh copilot` returns an error or requires interactive input that cannot be satisfied non-interactively, inform the user and suggest running `gh copilot` directly in the terminal with:
+5. **Handle errors**: If `copilot` returns an error, inform the user and suggest running it directly in the terminal:
    ```
-   git diff HEAD | gh copilot suggest -t shell "/review"
+   DIFF=$(git diff HEAD) && copilot -p "$(printf 'Review this diff:\n\n%s' "$DIFF")" -s
    ```
