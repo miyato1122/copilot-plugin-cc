@@ -28,5 +28,5 @@ When this command is invoked:
 ✅ copilot CLI installed (1.x.x)
 ✅ Authenticated
 
-GitHub Copilot CLI is ready. Run /copilot-plugin-cc:review to review your changes.
+GitHub Copilot CLI is ready. Run /copilot:review to review your changes.
 ```

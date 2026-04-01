@@ -1,0 +1,21 @@
+{
+  "name": "copilot-plugin-cc",
+  "owner": {
+    "name": "miyato1122"
+  },
+  "metadata": {
+    "description": "Use GitHub Copilot CLI from Claude Code to review code changes.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "copilot",
+      "description": "Use GitHub Copilot CLI from Claude Code to review code changes.",
+      "version": "1.0.0",
+      "author": {
+        "name": "miyato1122"
+      },
+      "source": "."
+    }
+  ]
+}
