@@ -1,4 +1,4 @@
-# copilot-plugin-cc
+# copilot-plugin-cc【unofficial】
 
 Use GitHub Copilot CLI from inside Claude Code to review code changes.
 
@@ -18,15 +18,22 @@ Inspired by [openai/codex-plugin-cc](https://github.com/openai/codex-plugin-cc).
 
 ## Install
 
+Add the marketplace in Claude Code:
+
 ```
 /plugin marketplace add miyato1122/copilot-plugin-cc
+```
+
+Install the plugin:
+
+```
 /plugin install copilot@miyato1122
 ```
 
-Or locally with:
+Reload plugins:
 
 ```
-claude --plugin-dir ./copilot-plugin-cc
+/reload-plugins
 ```
 
 Then run:
